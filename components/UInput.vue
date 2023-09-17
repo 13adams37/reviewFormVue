@@ -6,6 +6,7 @@ const emits = defineEmits(['update:modelValue']);
 const { modelValue } = defineProps({
   modelValue: String,
   placeholder: String,
+  label: String,
   type: {
     type: String,
     default: 'text',
@@ -25,6 +26,8 @@ watch(value, () => {
 
 <template>
   <div>
+    <h1>{{ label }}</h1>
+
     <input
       v-if="type !== 'textarea'"
       :type="type"
