@@ -1,7 +1,7 @@
 <script></script>
 
 <template>
-  <button class="btn btn-primary mt-4">
+  <button type="submit">
     <slot />
   </button>
 </template>

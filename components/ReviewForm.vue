@@ -40,51 +40,81 @@ export default defineComponent({
 </script>
 
 <template>
+  <h1 class="text-center text-2xl font-bold mb-8">Форма отзыва</h1>
   <form
     @submit.prevent.stop="submit"
-    class="container pt-5 pb-5"
+    novalidate
   >
     <UInput
       label="Ваше имя"
       v-model="review.author"
       type="text"
       placeholder="Как вас зовут?"
+      id="reviewName"
+      class="relative z-0 w-full mb-5"
     />
+    <!-- Добавить проверку -->
+    <span
+      class="text-sm text-red-600 hidden"
+      id="error"
+    >
+      Имя должно быть заполнено
+    </span>
 
     <UInput
       label="Текст отзыва"
       v-model="review.text"
       type="textarea"
       placeholder="Напишите текст отзыва.."
+      id="reviewText"
+      class="relative z-0 w-full mb-5"
     />
 
-    <h4>Ваша оценка</h4>
-    <NuxtRating
-      :ratingCount="5"
-      :read-only="false"
-      :ratingValue="0"
-      @rating-selected="(selectedRating) => (review.stars = selectedRating)"
-    />
+    <div class="text-center">
+      <h3 class="text-xl text-gray-600">Ваша оценка</h3>
+      <v-rating
+        v-model="review.stars"
+        color="grey-darken-1"
+        active-color="yellow-darken-3"
+        empty-icon="$ratingFull"
+        density="compact"
+        size="x-large"
+        hover
+      ></v-rating>
+    </div>
 
     <UFile
       v-model="review.attach"
-      label="Фото"
+      label="Загрузите фотографию для отзыва"
+      id="reviewPhoto"
+      class="relative z-0 w-full p-px mb-5"
     />
 
-    <URadio
-      v-model="review.isRecommended"
-      :value="false"
-      >Не советую</URadio
-    >
+    <fieldset class="z-0 w-full p-px mb-5">
+      <legend class="text-center text-gray-600">
+        Вы бы посоветовали друзьям?
+      </legend>
+      <div class="pt-5 flex place-content-evenly">
+        <URadio
+          v-model="review.isRecommended"
+          :value="false"
+          id="recommendedFalse"
+          >Не советую</URadio
+        >
+        <URadio
+          v-model="review.isRecommended"
+          :value="true"
+          id="recommendedTrue"
+          >Советую</URadio
+        >
+      </div>
+    </fieldset>
 
-    <URadio
-      v-model="review.isRecommended"
-      :value="true"
-      >Советую</URadio
+    <UButton
+      class="w-full px-6 py-3 mt-3 text-xl font-bold text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-blue-500 hover:bg-blue-600 hover:shadow-lg focus:outline-none"
+      >Отправить</UButton
     >
-
-    <UButton>Отправить</UButton>
   </form>
 </template>
 
-<style scoped></style>
+<style lang="scss"></style>

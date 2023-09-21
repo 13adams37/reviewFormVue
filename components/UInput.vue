@@ -7,6 +7,7 @@ const { modelValue } = defineProps({
   modelValue: String,
   placeholder: String,
   label: String,
+  id: String,
   type: {
     type: String,
     default: 'text',
@@ -26,24 +27,33 @@ watch(value, () => {
 
 <template>
   <div>
-    <h1>{{ label }}</h1>
-
     <input
       v-if="type !== 'textarea'"
+      :id="id"
+      :name="id"
       :type="type"
-      :placeholder="placeholder"
       v-model="value"
-      class="form-control mb-3"
+      placeholder=" "
+      class="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
+      required
     />
 
     <textarea
       v-else
+      :id="id"
+      :name="id"
       :type="type"
       v-model="value"
-      class="form-control mb-3"
+      placeholder=" "
+      class="resize-none pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
       rows="3"
-      :placeholder="placeholder"
     >
     </textarea>
+
+    <label
+      :for="id"
+      class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500"
+      >{{ label }}</label
+    >
   </div>
 </template>
