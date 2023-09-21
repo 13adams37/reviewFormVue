@@ -62,12 +62,14 @@ const submit = () => {
       <h3 class="text-xl text-gray-600">Ваша оценка</h3>
       <v-rating
         v-model="review.stars"
-        color="grey-darken-1"
-        active-color="yellow-darken-3"
-        empty-icon="$ratingFull"
-        density="compact"
-        size="x-large"
         hover
+      >
+        <template #item="{ isHovered }">
+          <v-icon
+            icon="mdi-star"
+            size="64"
+            :color="isHovered ? 'yellow-darken-3' : 'grey-darken-1'"
+          ></v-icon> </template
       ></v-rating>
     </div>
 
