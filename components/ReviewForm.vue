@@ -1,42 +1,32 @@
-<script>
-import { reactive, defineComponent } from 'vue';
+<script setup>
+import { reactive } from 'vue';
 import axios from 'axios';
 
-export default defineComponent({
-  name: 'ReviewForm',
-
-  setup() {
-    const review = reactive({
-      author: '',
-      stars: null,
-      text: '',
-      attach: null,
-      isRecommended: true,
-    });
-    const submit = () => {
-      console.log('submited.');
-      axios
-        .post('/api/review', review, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((res) => {
-          console.log(res);
-        })
-        .finally(() => {
-          console.log('end');
-        });
-    };
-    return {
-      review,
-      submit,
-    };
-  },
+const review = reactive({
+  author: '',
+  stars: null,
+  text: '',
+  attach: null,
+  isRecommended: true,
 });
+const submit = () => {
+  console.log('submited.');
+  axios
+    .post('/api/review', review, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((res) => {
+      console.log(res);
+    })
+    .finally(() => {
+      console.log('end');
+    });
+};
 </script>
 
 <template>
@@ -49,7 +39,6 @@ export default defineComponent({
       label="Ваше имя"
       v-model="review.author"
       type="text"
-      placeholder="Как вас зовут?"
       id="reviewName"
       class="relative z-0 w-full mb-5"
     />
@@ -65,7 +54,6 @@ export default defineComponent({
       label="Текст отзыва"
       v-model="review.text"
       type="textarea"
-      placeholder="Напишите текст отзыва.."
       id="reviewText"
       class="relative z-0 w-full mb-5"
     />

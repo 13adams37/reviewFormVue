@@ -1,15 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // @ts-ignore
-import { createResolver } from '@nuxt/kit';
 import { resolve } from 'path';
-// const { resolve } = createResolver(import.meta.url);
 import { defineNuxtConfig } from 'nuxt/config';
 
 export default defineNuxtConfig({
+  app: { baseURL: '/reviewFormVue/', buildAssetsDir: 'assets' },
   alias: {
     '@': resolve(__dirname, '/'),
   },
-  ssr: false,
+  ssr: true,
   css: ['~/assets/styles/main.scss', '~/assets/styles/_fonts.scss'],
   postcss: {
     plugins: {

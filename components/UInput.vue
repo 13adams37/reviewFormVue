@@ -5,7 +5,6 @@ const emits = defineEmits(['update:modelValue']);
 
 const { modelValue } = defineProps({
   modelValue: String,
-  placeholder: String,
   label: String,
   id: String,
   type: {
@@ -47,8 +46,7 @@ watch(value, () => {
       placeholder=" "
       class="resize-none pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
       rows="3"
-    >
-    </textarea>
+    />
 
     <label
       :for="id"

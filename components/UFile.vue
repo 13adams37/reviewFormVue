@@ -67,11 +67,6 @@ watch(value, () => {
         type="file"
         @change="uploadFile"
       />
-      <img
-        :src="previewFilePath"
-        alt=""
-        class="w-100 mt-2"
-      />
     </label>
   </div>
 </template>
