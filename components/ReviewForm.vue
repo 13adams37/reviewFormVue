@@ -10,7 +10,6 @@ const review = reactive({
   isRecommended: true,
 });
 const submit = () => {
-  console.log('submited.');
   axios
     .post('/api/review', review, {
       headers: {
@@ -18,10 +17,10 @@ const submit = () => {
       },
     })
     .then((res) => {
-      console.log(res);
+      console.log('submited.');
     })
     .catch((res) => {
-      console.log(res);
+      console.log('error.');
     })
     .finally(() => {
       console.log('end');
@@ -42,9 +41,8 @@ const submit = () => {
       id="reviewName"
       class="relative z-0 w-full mb-5"
     />
-    <!-- Добавить проверку -->
     <span
-      class="text-sm text-red-600 hidden"
+      class="text-center text-sm text-red-600 hidden"
       id="error"
     >
       Имя должно быть заполнено
@@ -57,20 +55,32 @@ const submit = () => {
       id="reviewText"
       class="relative z-0 w-full mb-5"
     />
+    <span
+      class="text-center text-sm text-red-600 hiden"
+      id="error"
+    >
+      Текст отзыва не должен быть пустым
+    </span>
 
     <div class="text-center">
       <h3 class="text-xl text-gray-600">Ваша оценка</h3>
       <v-rating
         v-model="review.stars"
+        active-color="yellow-darken-3"
+        color="grey-darken-1"
+        empty-icon="$ratingFull"
+        item-aria-label=""
+        :style="{ fontSize: '32px' }"
+        size="64"
         hover
       >
-        <template #item="{ isHovered }">
-          <v-icon
-            icon="mdi-star"
-            size="64"
-            :color="isHovered ? 'yellow-darken-3' : 'grey-darken-1'"
-          ></v-icon> </template
-      ></v-rating>
+      </v-rating>
+    </div>
+    <div
+      class="text-center text-sm text-red-600 hidden"
+      id="error"
+    >
+      Оценка
     </div>
 
     <UFile
