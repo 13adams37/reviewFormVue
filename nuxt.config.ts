@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     '@': resolve(__dirname, '/'),
   },
   ssr: true,
-  css: ['~/assets/styles/main.scss', '~/assets/styles/_fonts.scss'],
+  css: ['~/assets/styles/main.scss'],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -23,7 +23,7 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
-  modules: ['@pinia/nuxt', 'vuetify-nuxt-module'],
+  modules: ['@pinia/nuxt', 'vuetify-nuxt-module', '@vee-validate/nuxt'],
   pinia: {
     autoImports: ['defineStore', ['defineStore', 'definePiniaStore']],
   },
@@ -41,6 +41,17 @@ export default defineNuxtConfig({
     },
     vuetifyOptions: {
       /* vuetify options */
+    },
+  },
+  veeValidate: {
+    // disable or enable auto imports
+    autoImports: true,
+    // Use different names for components
+    componentNames: {
+      Form: 'VeeForm',
+      Field: 'VeeField',
+      FieldArray: 'VeeFieldArray',
+      ErrorMessage: 'VeeErrorMessage',
     },
   },
 });

@@ -1,17 +1,40 @@
 <script setup>
-import { reactive } from 'vue';
 import axios from 'axios';
+import * as yup from 'yup';
+import { ErrorMessage } from 'vee-validate';
 
-const review = reactive({
-  author: '',
-  stars: null,
-  text: '',
-  attach: null,
-  isRecommended: true,
+const schema = yup.object({
+  name: yup.string().required().label('Автор'),
+  text: yup.string().required().label('Текст отзыва'),
+  stars: yup.number().min(1).required().label('Оценка'),
+  attach: yup.mixed(),
+  isRecommended: yup.boolean().label('Рекомендация'),
 });
-const submit = () => {
+
+const { defineComponentBinds, handleSubmit } = useForm({
+  validationSchema: schema,
+  initialValues: {
+    attach: '',
+    isRecommended: true,
+  },
+});
+
+const vuetifyConfig = (state) => ({
+  props: {
+    'error-messages': state.errors,
+  },
+});
+
+const name = defineComponentBinds('name', vuetifyConfig);
+const text = defineComponentBinds('text', vuetifyConfig);
+const stars = defineComponentBinds('stars', vuetifyConfig);
+const attach = defineComponentBinds('attach', vuetifyConfig);
+const isRecommended = defineComponentBinds('isRecommended', vuetifyConfig);
+
+const onSubmit = handleSubmit((values) => {
+  console.log('Submitted with', values);
   axios
-    .post('/api/review', review, {
+    .post('/api/review', values, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -25,47 +48,35 @@ const submit = () => {
     .finally(() => {
       console.log('end');
     });
-};
+});
 </script>
 
 <template>
   <h1 class="text-center text-2xl font-bold mb-8">Форма отзыва</h1>
-  <form
-    @submit.prevent.stop="submit"
-    novalidate
+  <v-form
+    @submit.prevent="onSubmit"
+    :validation-schema="schema"
   >
     <UInput
       label="Ваше имя"
-      v-model="review.author"
+      v-bind="name"
       type="text"
-      id="reviewName"
+      id="name"
       class="relative z-0 w-full mb-5"
     />
-    <span
-      class="text-center text-sm text-red-600 hidden"
-      id="error"
-    >
-      Имя должно быть заполнено
-    </span>
 
     <UInput
       label="Текст отзыва"
-      v-model="review.text"
+      v-bind="text"
       type="textarea"
-      id="reviewText"
+      id="text"
       class="relative z-0 w-full mb-5"
     />
-    <span
-      class="text-center text-sm text-red-600 hiden"
-      id="error"
-    >
-      Текст отзыва не должен быть пустым
-    </span>
 
     <div class="text-center">
       <h3 class="text-xl text-gray-600">Ваша оценка</h3>
       <v-rating
-        v-model="review.stars"
+        v-bind="stars"
         active-color="yellow-darken-3"
         color="grey-darken-1"
         empty-icon="$ratingFull"
@@ -76,15 +87,14 @@ const submit = () => {
       >
       </v-rating>
     </div>
-    <div
-      class="text-center text-sm text-red-600 hidden"
-      id="error"
+    <ErrorMessage name="stars"
+      ><span class="flex justify-center text-sm text-red-600 mb-5"
+        >Оценка обязательна</span
+      ></ErrorMessage
     >
-      Оценка
-    </div>
 
     <UFile
-      v-model="review.attach"
+      v-bind="attach"
       label="Загрузите фотографию для отзыва"
       id="reviewPhoto"
       class="relative z-0 w-full p-px mb-5"
@@ -96,13 +106,13 @@ const submit = () => {
       </legend>
       <div class="pt-5 flex place-content-evenly">
         <URadio
-          v-model="review.isRecommended"
+          v-bind="isRecommended"
           :value="false"
           id="recommendedFalse"
           >Не советую</URadio
         >
         <URadio
-          v-model="review.isRecommended"
+          v-bind="isRecommended"
           :value="true"
           id="recommendedTrue"
           >Советую</URadio
@@ -114,7 +124,7 @@ const submit = () => {
       class="w-full px-6 py-3 mt-3 text-xl font-bold text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-blue-500 hover:bg-blue-600 hover:shadow-lg focus:outline-none"
       >Отправить</UButton
     >
-  </form>
+  </v-form>
 </template>
 
 <style lang="scss"></style>

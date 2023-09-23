@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, ref, watch } from 'vue';
+import { ErrorMessage } from 'vee-validate';
 
 const emits = defineEmits(['update:modelValue']);
 
@@ -52,6 +53,12 @@ watch(value, () => {
       :for="id"
       class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500"
       >{{ label }}</label
+    >
+
+    <ErrorMessage :name="id"
+      ><span class="text-sm text-red-600 mb-5"
+        >Обязательное поле</span
+      ></ErrorMessage
     >
   </div>
 </template>

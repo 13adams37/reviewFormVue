@@ -25,6 +25,8 @@
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@pinia/nuxt": "^0.4.11",
     "@tailwindcss/forms": "^0.5.6",
+    "@vee-validate/nuxt": "^4.11.6",
+    "@vee-validate/yup": "^4.11.6",
     "autoprefixer": "^10.4.15",
     "pinia": "^2.1.6",
     "postcss": "^8.4.29",

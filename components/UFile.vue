@@ -1,12 +1,14 @@
 <script setup>
-import { computed, defineProps, defineEmits, watch, ref } from 'vue';
+import { defineProps, defineEmits, watch, ref } from 'vue';
 
 const emits = defineEmits(['update:modelValue']);
 
 const value = ref(modelValue);
 
+const newLabel = shallowRef();
+
 const { modelValue } = defineProps({
-  modelValue: Array,
+  modelValue: [File, String],
   label: String,
   id: String,
 });
@@ -14,27 +16,24 @@ const { modelValue } = defineProps({
 const uploadFile = (e) => {
   const [file] = e.target.files;
   value.value = file;
+  newLabel.value = 'Загружен файл' + '\n' + value.value.name;
 };
-
-const previewFilePath = computed(() => {
-  if (value.value) {
-    return URL.createObjectURL(value.value);
-  }
-  return '#';
-});
 
 watch(value, () => {
   emits('update:modelValue', value.value);
 });
+
+console.log();
 </script>
 
 <template>
   <div class="flex items-center justify-center text-center w-full">
     <label
+      style="white-space: pre"
       class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
       :for="id"
     >
-      {{ label }}
+      {{ newLabel || label }}
 
       <div class="flex flex-col items-center justify-center pt-5 pb-6">
         <svg
@@ -57,7 +56,7 @@ watch(value, () => {
           файл
         </p>
         <p class="text-xs text-gray-500 dark:text-gray-400">
-          SVG, PNG, JPG or GIF
+          SVG, PNG, JPG или GIF
         </p>
       </div>
 
